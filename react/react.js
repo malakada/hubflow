@@ -25,7 +25,6 @@ var IssueRow = React.createClass({
   render: function() {
     var state = this.props.state;
     var displayClosed = this.props.displayClosed;
-    console.log('displayClosed: ' + displayClosed);
     var display = state === "open" || displayClosed ? 'initial' : 'none';
     var classString = "issue " + state;
     return (
@@ -41,23 +40,30 @@ var SearchBar = React.createClass({
   getInitialState: function() {
     return {
       displayClosed: false,
+      repo: '',
     };
   },
-  handleChange: function() {
-    console.log(this.state);
+  handleFilterClosedChange: function() {
     var newState = !this.state.displayClosed;
     this.setState({
       displayClosed: newState,
     });
     this.props.onUpdateDisplayClosed(newState);
   },
+  handleTextRepoChange: function(ev) {
+    var newRepo = ev.target.value;
+    this.setState({
+      repo: newRepo,
+    });
+    this.props.onUpdateRepo(newRepo);
+  },
   render: function() {
     var handleChange = function() {}
     return (
       <form>
-        <input type="text" placeholder="Search..." />
+        <input type="text" value={this.state.repo} placeholder="Enter repo..." onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} />
         <p>
-          <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleChange.bind(this, 'displayClosed')} />
+          <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
           {' '}
           Show issues marked as closed too.
         </p>
@@ -69,12 +75,16 @@ var SearchBar = React.createClass({
 var FilterableIssueTable = React.createClass({
   getInitialState: function() {
     return {
-      issues: [],
       displayClosed: false,
+      issues: [],
+      repo: '',
     };
   },
   componentDidMount: function() {
-    $.get(this.props.source, function(result) {
+    this.updateIssues();
+  },
+  updateIssues: function() {
+    $.get("https://api.github.com/repos/" + this.state.repo + "/issues?state=all", function(result) {
       if (this.isMounted()) {
         this.setState({
           issues: result,
@@ -87,10 +97,16 @@ var FilterableIssueTable = React.createClass({
       displayClosed: val,
     });
   },
+  onUpdateRepo: function(val) {
+    this.setState({
+      repo: val,
+    });
+    this.updateIssues();
+  },
   render: function() {
     return (
       <div>
-        <SearchBar onUpdateDisplayClosed={this.onUpdateDisplayClosed} />
+        <SearchBar onUpdateDisplayClosed={this.onUpdateDisplayClosed} onUpdateRepo={this.onUpdateRepo} />
         <IssueTable issues={this.state.issues} displayClosed={this.state.displayClosed} />
       </div>
     );
@@ -98,6 +114,6 @@ var FilterableIssueTable = React.createClass({
 });
 
 React.render(
-  <FilterableIssueTable source="https://api.github.com/repos/andrewrk/groovebasin/issues?state=all" />,
+  <FilterableIssueTable />,
   document.getElementById('content')
 );
