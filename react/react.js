@@ -45,17 +45,18 @@ var SearchBar = React.createClass({
     });
     this.props.onUpdateDisplayClosed(newState);
   },
-  // handleTextRepoChange: function(ev) {
-  //   var newRepo = ev.target.value;
-  //   this.setState({
-  //     repo: newRepo,
-  //   });
-  // },
+  handleTextRepoChange: function(ev) {
+    var newRepo = ev.target.value;
+    this.setState({
+      repo: newRepo,
+    });
+    this.props.onUpdateRepo(newRepo);
+  },
   render: function() {
     var handleChange = function() {}
     return (
       <form>
-        <input type="text" value={this.state.repo} />
+        <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} />
         <p>
           <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
           {' '}
