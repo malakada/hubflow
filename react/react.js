@@ -3,16 +3,10 @@ var IssueTable = React.createClass({
     var rows = [];
     var displayClosed = this.props.displayClosed;
     this.props.issues.forEach(function(issue) {
-      rows.push(<IssueRow title={issue.title} body={issue.body} state={issue.state} displayClosed={displayClosed} />);
+      rows.push(<IssueRow title={issue.title} body={issue.body} state={issue.state} displayClosed={displayClosed} avatarUrl={issue.user.avatar_url}  />);
     });
     return (
       <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Body</th>
-          </tr>
-        </thead>
         <tbody>
           {rows}
         </tbody>
@@ -29,6 +23,7 @@ var IssueRow = React.createClass({
     var classString = "issue " + state;
     return (
       <tr className={classString} style={{display: display }}>
+        <td className="userInfo"><img src={this.props.avatarUrl} /></td>
         <td>{this.props.title}</td>
         <td>{this.props.body}</td>
       </tr>
@@ -40,7 +35,7 @@ var SearchBar = React.createClass({
   getInitialState: function() {
     return {
       displayClosed: false,
-      repo: '',
+      repo: 'andrewrk/groovebasin',
     };
   },
   handleFilterClosedChange: function() {
@@ -50,18 +45,17 @@ var SearchBar = React.createClass({
     });
     this.props.onUpdateDisplayClosed(newState);
   },
-  handleTextRepoChange: function(ev) {
-    var newRepo = ev.target.value;
-    this.setState({
-      repo: newRepo,
-    });
-    this.props.onUpdateRepo(newRepo);
-  },
+  // handleTextRepoChange: function(ev) {
+  //   var newRepo = ev.target.value;
+  //   this.setState({
+  //     repo: newRepo,
+  //   });
+  // },
   render: function() {
     var handleChange = function() {}
     return (
       <form>
-        <input type="text" value={this.state.repo} placeholder="Enter repo..." onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} />
+        <input type="text" value={this.state.repo} />
         <p>
           <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
           {' '}
@@ -77,7 +71,7 @@ var FilterableIssueTable = React.createClass({
     return {
       displayClosed: false,
       issues: [],
-      repo: '',
+      repo: 'andrewrk/groovebasin',
     };
   },
   componentDidMount: function() {
