@@ -3,7 +3,20 @@ var IssueTable = React.createClass({
     var rows = [];
     var displayClosed = this.props.displayClosed;
     this.props.issues.forEach(function(issue) {
-      rows.push(<IssueRow title={issue.title} body={issue.body} state={issue.state} displayClosed={displayClosed} avatarUrl={issue.user.avatar_url}  />);
+      rows.push(<IssueRow
+        key={issue.id}
+        authorUrl={issue.user.html_url}
+        authorUserLogin={issue.user.login}
+        avatarUrl={issue.user.avatar_url}
+        body={issue.body}
+        createdAt={issue.created_at}
+        displayClosed={displayClosed}
+        url={issue.html_url}
+        labels={issue.labels}
+        milestone={issue.milestone}
+        number={issue.number}
+        state={issue.state}
+        title={issue.title} />);
     });
     return (
       <table>
@@ -18,14 +31,43 @@ var IssueTable = React.createClass({
 var IssueRow = React.createClass({
   render: function() {
     var state = this.props.state;
+    var classString = "issue " + state;
     var displayClosed = this.props.displayClosed;
     var display = state === "open" || displayClosed ? 'initial' : 'none';
-    var classString = "issue " + state;
+    var tagList = "";
+
+    for (var i = 0; i < this.props.labels; i++) {
+      var label = this.props.labels[i];
+      tagList += "<span className='tag' style={{backgroundColor: #" + label.color + "}}>" + label.name + "</span>";
+    }
+
+    console.log(tagList);
+    console.log(this.props.labels);
+
     return (
       <tr className={classString} style={{display: display }}>
-        <td className="userInfo"><img src={this.props.avatarUrl} /></td>
-        <td>{this.props.title}</td>
-        <td>{this.props.body}</td>
+        <td className="userInfo">
+          <img src={this.props.avatarUrl} />
+          <p>{this.props.authorUserLogin}</p>
+          <div className="state panelThing">
+            <h6>state:</h6>
+            <p>{state}</p>
+          </div>
+        </td>
+        <td>
+          <h2>{this.props.title}</h2>
+          <p>{this.props.body}</p>
+        </td>
+        <td>
+          <div className="opened panelThing">
+            <h6>opened:</h6>
+            <p>{this.props.createdAt}</p>
+          </div>
+          <div className="tagged panelThing">
+            <h6>tagged:</h6>
+            <p>{tagList}</p>
+          </div>
+        </td>
       </tr>
     );
   },
