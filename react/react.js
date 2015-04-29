@@ -33,7 +33,7 @@ var IssueRow = React.createClass({
     var state = this.props.state;
     var classString = "issue " + state;
     var displayClosed = this.props.displayClosed;
-    var display = state === "open" || displayClosed ? 'initial' : 'none';
+    var display = state === "open" || displayClosed ? 'table-row' : 'none';
     var tagList = "";
 
     for (var i = 0; i < this.props.labels; i++) {
@@ -56,7 +56,7 @@ var IssueRow = React.createClass({
         </td>
         <td>
           <h2>{this.props.title}</h2>
-          <p>{this.props.body}</p>
+          <p className="issueBody">{this.props.body}</p>
         </td>
         <td>
           <div className="opened panelThing">
