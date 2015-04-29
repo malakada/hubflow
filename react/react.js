@@ -1,4 +1,4 @@
-var IssueTable = React.createClass({
+var IssueList = React.createClass({
   render: function() {
     var rows = [];
     var displayClosed = this.props.displayClosed;
@@ -19,11 +19,9 @@ var IssueTable = React.createClass({
         title={issue.title} />);
     });
     return (
-      <table>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <div className="issues">
+        {rows}
+      </div>
     );
   },
 });
@@ -33,7 +31,7 @@ var IssueRow = React.createClass({
     var state = this.props.state;
     var classString = "issue " + state;
     var displayClosed = this.props.displayClosed;
-    var display = state === "open" || displayClosed ? 'table-row' : 'none';
+    var display = state === "open" || displayClosed ? 'block' : 'none';
     var tagList = "";
 
     for (var i = 0; i < this.props.labels; i++) {
@@ -45,20 +43,20 @@ var IssueRow = React.createClass({
     console.log(this.props.labels);
 
     return (
-      <tr className={classString} style={{display: display }}>
-        <td className="userInfo">
+      <div className={classString} style={{display: display }}>
+        <div className="issueRowAuthorStatus">
           <img src={this.props.avatarUrl} />
-          <p>{this.props.authorUserLogin}</p>
-          <div className="state panelThing">
+          <h3>{this.props.authorUserLogin}</h3>
+          <div className={"state panelThing " + state}>
             <h6>state:</h6>
             <p>{state}</p>
           </div>
-        </td>
-        <td>
+        </div>
+        <div className="issueRowBody">
           <h2>{this.props.title}</h2>
           <p className="issueBody">{this.props.body}</p>
-        </td>
-        <td>
+        </div>
+        <div className="issueRowTags">
           <div className="opened panelThing">
             <h6>opened:</h6>
             <p>{this.props.createdAt}</p>
@@ -67,8 +65,8 @@ var IssueRow = React.createClass({
             <h6>tagged:</h6>
             <p>{tagList}</p>
           </div>
-        </td>
-      </tr>
+        </div>
+      </div>
     );
   },
 });
@@ -109,7 +107,7 @@ var SearchBar = React.createClass({
   },
 });
 
-var FilterableIssueTable = React.createClass({
+var FilterableIssueList = React.createClass({
   getInitialState: function() {
     return {
       displayClosed: false,
@@ -144,13 +142,13 @@ var FilterableIssueTable = React.createClass({
     return (
       <div>
         <SearchBar onUpdateDisplayClosed={this.onUpdateDisplayClosed} onUpdateRepo={this.onUpdateRepo} />
-        <IssueTable issues={this.state.issues} displayClosed={this.state.displayClosed} />
+        <IssueList issues={this.state.issues} displayClosed={this.state.displayClosed} />
       </div>
     );
   },
 });
 
 React.render(
-  <FilterableIssueTable />,
+  <FilterableIssueList />,
   document.getElementById('content')
 );

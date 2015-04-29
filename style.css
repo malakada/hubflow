@@ -5,12 +5,18 @@
 }
 
 body {
-  background-color: rgb(93, 198, 244);
+  background-color: rgb(5, 57, 100);
   font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Oswald', 'sans-serif';
+}
+
+h2 {
+  color: rgba(255, 255, 255, 0.91);
+  font-size: 2em;
+  letter-spacing: 3px;
 }
 
 h6 {
@@ -19,47 +25,93 @@ h6 {
 }
 
 #content {
-  background-color: rgba(102, 51, 153, 0.15);
+  background-color: rgb(18, 80, 132);
+  box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.62);
   margin: 0 auto 20px;
-  padding: 20px;
+  padding: 20px 0;
   width: 1000px;
 }
 
-table {
-  border-spacing: 0px 20px;
+.issueRow {
+  margin: 20px 0;
 }
 
-tr.issue {
-  background-color: rgba(102, 51, 153, 0.66);
+.issue {
+  background-color: rgb(74, 146, 205);
+  margin-bottom: 30px;
   vertical-align: top;
 }
 
-td {
-  padding: 5px;
+.issue:hover {
+  background-color: rgb(100, 164, 216);
 }
 
-td .panelThing {
-  background-color: rgba(255, 255, 255, 0.75);
+.issue > div {
+  display: inline-block;
+  height: 287px;
+  padding: 10px;
+  vertical-align: top;
+}
+
+.issueRowAuthorStatus {
+  background-color: rgb(165, 196, 221);
+  width: 20%;
+}
+
+.issueRowBody {
+  width: 54%;
+}
+
+.issueRowTags {
+  width: 20%;
+}
+
+.panelThing {
+  background-color: rgb(255, 255, 255, 0.75);
+  box-shadow:1px 1px 3px -1px black;
   padding: 1px 10px 5px;
   text-align: center;
 }
 
-td .panelThing:first-of-type {
+.panelThing.state.open {
+  background-color: rgba(32, 147, 13, 0.49);
+}
+
+.panelThing.state.closed {
+  background-color: rgb(144, 147, 168);
+}
+
+.panelThing.opened, .panelThing.tagged {
+  background-color: rgb(165, 196, 221);
+}
+
+.panelThing:first-of-type {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
 
-td .panelThing:last-of-type {
+.panelThing:last-of-type {
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
 
-.userInfo img {
-  max-width: 100px;
+.issueRowAuthorStatus img {
+  border-radius: 1px;
+  box-shadow: 1px 1px 2px 0px black;
+  max-width: 100%;
+}
+
+.issueRowAuthorStatus h3 {
+  color: rgba(5, 57, 100, 0.72);
+  letter-spacing: 1px;
+  margin: 3px;
+  text-align: center;
 }
 
 .issueBody {
-  height: 125px;
+  font-weight: 100;
+  font-size: 0.9em;
+  height: 240px;
   overflow: hidden;
   white-space: pre-wrap;
   width: 100%;
