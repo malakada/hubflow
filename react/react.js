@@ -29,21 +29,21 @@ var IssueList = React.createClass({
 var IssueRow = React.createClass({
   render: function() {
     var state = this.props.state;
-    var classString = "issue " + state;
+    var classString = 'issue ' + state;
     var displayClosed = this.props.displayClosed;
-    var display = state === "open" || displayClosed ? 'block' : 'none';
-    var tagList = "";
+    var display = state === 'open' || displayClosed ? 'block' : 'none';
+    var tagList = '';
+    var tags = [];
 
-    for (var i = 0; i < this.props.labels; i++) {
-      var label = this.props.labels[i];
-      tagList += "<span className='tag' style={{backgroundColor: #" + label.color + "}}>" + label.name + "</span>";
-    }
-
-    console.log(tagList);
-    console.log(this.props.labels);
+    // TODO: checkout map
+    this.props.labels.forEach(function(tag) {
+      tags.push(<IssueListTag
+        color={tag.color}
+        title={tag.name} />);
+    });
 
     return (
-      <div className={classString} style={{display: display }}>
+      <div className={classString} style={{ display: display }}>
         <div className="issueRowAuthorStatus">
           <img src={this.props.avatarUrl} />
           <h3>{this.props.authorUserLogin}</h3>
@@ -63,11 +63,22 @@ var IssueRow = React.createClass({
           </div>
           <div className="tagged panelThing">
             <h6>tagged:</h6>
-            <p>{tagList}</p>
+            <p>{tags}</p>
           </div>
         </div>
       </div>
     );
+  },
+});
+
+var IssueListTag = React.createClass({
+  render: function() {
+    var color = '#' + this.props.color;
+    return (
+      <span className="issueListTag" style={{ backgroundColor: color }}>
+        {this.props.title}
+      </span>
+    )
   },
 });
 
