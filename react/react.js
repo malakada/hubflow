@@ -28,6 +28,9 @@ var IssueList = React.createClass({
 
 var IssueRow = React.createClass({
   render: function() {
+    var converter = new Showdown.converter();
+    var dangerousHtml = converter.makeHtml(this.props.body.toString());
+
     var state = this.props.state;
     var classString = 'issue ' + state;
     var displayClosed = this.props.displayClosed;
@@ -54,7 +57,9 @@ var IssueRow = React.createClass({
         </div>
         <div className="issueRowBody">
           <h2>{this.props.title}</h2>
-          <p className="issueBody">{this.props.body}</p>
+          <div className="issueBody">
+            <span dangerouslySetInnerHTML={{ __html: dangerousHtml }} />
+          </div>
         </div>
         <div className="issueRowTags">
           <div className="opened panelThing">
