@@ -126,3 +126,15 @@ h6 {
   white-space: pre-wrap;
   width: 100%;
 }
+
+.header-thing {
+  background: rgb(104, 160, 124);
+  margin: 10px 0 30px;
+  padding: 20px 20px;
+}
+
+.header-thing h1 {
+  color: rgba(255, 255, 255, 0.83);
+  letter-spacing: 7px; /* for extra intensity */
+  text-align: center;
+}

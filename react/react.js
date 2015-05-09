@@ -111,14 +111,17 @@ var SearchBar = React.createClass({
   render: function() {
     var handleChange = function() {}
     return (
-      <form>
-        <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} />
-        <p>
-          <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
-          {' '}
-          Show issues marked as closed too.
-        </p>
-      </form>
+      <div className="header-thing">
+        <h1>Hubflow</h1>
+        <form>
+          <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} />
+          <p>
+            <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
+            {' '}
+            Show issues marked as closed too.
+          </p>
+        </form>
+      </div>
     );
   },
 });
