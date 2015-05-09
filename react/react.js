@@ -114,13 +114,14 @@ var SearchBar = React.createClass({
       <div className="header-thing">
         <h1>Hubflow</h1>
         <form>
-          <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} />
-          <p>
+          <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} placeholder="melissanoelle/hubflow" />
+          <p className="checkbox-label">
             <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
             {' '}
             Show issues marked as closed too.
           </p>
         </form>
+        <div className="clearfix"></div>
       </div>
     );
   },
