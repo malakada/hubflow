@@ -27,6 +27,10 @@ h6 {
   margin: 5px;
 }
 
+.clearfix {
+  clear: both;
+}
+
 #content {
   background-color: rgb(18, 80, 132);
   box-shadow: 0px 0px 8px 2px rgba(0, 0, 0, 0.62);
@@ -125,4 +129,40 @@ h6 {
   overflow: hidden;
   white-space: pre-wrap;
   width: 100%;
+}
+
+.header-thing {
+  background: rgb(104, 160, 124);
+  margin: 10px 0 30px;
+  padding: 20px 20px;
+}
+
+.header-thing h1 {
+  color: rgba(255, 255, 255, 0.83);
+  float: right;
+  letter-spacing: 7px; 
+  text-align: center;
+}
+
+.header-thing input[type="text"] {
+  float: left;
+  font-family: 'Open Sans';
+  font-size: 0.9em;
+  font-weight: 100;
+  padding: 10px;
+  width: 25%;
+}
+
+.checkbox-label {
+  color: rgba(0,0,0,0.6);
+  float: left;
+  font-weight: 100;
+  padding-left: 10px;
+  position: relative;
+  top: 11px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  bottom: 3px;
+  position: relative;
 }
