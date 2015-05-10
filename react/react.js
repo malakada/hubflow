@@ -160,6 +160,7 @@ var FilterableIssueList = React.createClass({
   getInitialState: function() {
     return {
       authToken: '',
+      direction: 'desc',
       issues: [],
       repo: 'andrewrk/groovebasin',
       sort: 'created',
@@ -190,8 +191,9 @@ var FilterableIssueList = React.createClass({
       url: 'https://api.github.com/repos/' + this.state.repo + '/issues',
       headers: headers,
       data: {
-        state: this.state.state,
+        direction: this.state.direction,
         sort: this.state.sort,
+        state: this.state.state,
       },
       success: function(result) {
         if (this.isMounted()) {
@@ -217,7 +219,14 @@ var FilterableIssueList = React.createClass({
     });
   },
   onUpdateSort: function(val) {
+    var direction = 'desc';
+
+    if (val === 'updated') {
+      direction = 'asc';
+    }
+
     this.setState({
+      direction: direction,
       sort: val,
     }, function() {
       this.updateIssues();
