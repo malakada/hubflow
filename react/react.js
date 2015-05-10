@@ -49,13 +49,15 @@ var IssueRow = React.createClass({
     };
   },
   toggleExpanded: function(ev) {
-    var newClassString
+    var newClassString = this.state.classString;
     var expandedClass = ' expanded';
+
     if (this.state.classString.indexOf(expandedClass) > 0) {
       newClassString = this.state.classString.replace(expandedClass, '');
     } else {
       newClassString += expandedClass;
     }
+
     this.setState({
       classString: newClassString,
     });
