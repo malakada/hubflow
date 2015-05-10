@@ -142,20 +142,23 @@ var SearchBar = React.createClass({
 
     return (
       <div className="header-thing">
-        <h1>Hubflow</h1>
-          <div className="top">
-            <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChangeAndSubmit} placeholder="melissanoelle/hubflow" />
-            <p className="checkbox-label">
-              <input type="checkbox" checked={this.state.state === 'all' ? true : false} onChange={this.handleFilterClosedChange.bind(this, 'state')} />
-              {' '}
-              Show issues marked as closed too.
-            </p>
-            <div className="clearfix"></div>
-          </div>
-          <div className="bottom">
-            <p>Filter by:</p>
-            <button className={inactivityButtonClass} onClick={this.toggleSortInactivity}>Inactivity</button>
-          </div>
+        <div className="title">
+          <a className="incognito" href="https://github.com/melissanoelle/hubflow"><h1>Hubflow</h1></a>
+          <a href="https://github.com/melissanoelle/hubflow"><h6>this is on github</h6></a>
+        </div>
+        <div className="top">
+          <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChangeAndSubmit} placeholder="melissanoelle/hubflow" />
+          <p className="checkbox-label">
+            <input type="checkbox" checked={this.state.state === 'all' ? true : false} onChange={this.handleFilterClosedChange.bind(this, 'state')} />
+            {' '}
+            Show issues marked as closed too.
+          </p>
+          <div className="clearfix"></div>
+        </div>
+        <div className="bottom">
+          <p>Filter by:</p>
+          <button className={inactivityButtonClass} onClick={this.toggleSortInactivity}>Inactivity</button>
+        </div>
         <div className="clearfix"></div>
       </div>
     );

@@ -139,7 +139,6 @@ h6 {
 
 .header-thing h1 {
   color: rgba(255, 255, 255, 0.83);
-  float: right;
   letter-spacing: 7px; 
   text-align: center;
 }
@@ -183,4 +182,13 @@ h6 {
 .bottom button.off {
   background-color: rgb(203, 216, 203);
   box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+}
+
+.title {
+  float: right;
+  text-align: center;
+}
+
+a.incognito, a.incognito:link, a.incognito:visited, a.incognito:hover, a.incognito:active,  {
+  text-decoration: none !important;
 }
