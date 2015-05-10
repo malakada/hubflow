@@ -63,9 +63,9 @@ var IssueRow = React.createClass({
         <div className="issueRowTags">
           <div className="opened panelThing">
             <h6>opened:</h6>
-            <p>{new Date(this.props.createdAt).toString()}</p>
+            <p>{moment(this.props.createdAt).calendar()}</p>
             <h6>last updated:</h6>
-            <p>{new Date(this.props.updatedAt).toString()}</p>
+            <p>{moment(this.props.updatedAt).calendar()}</p>
           </div>
           <div className="tagged panelThing">
             <h6>tagged:</h6>
