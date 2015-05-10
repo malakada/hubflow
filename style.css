@@ -166,3 +166,21 @@ h6 {
   bottom: 3px;
   position: relative;
 }
+
+.bottom button {
+  border: 0;
+  border-radius: 3px;
+  margin: 3px 0;
+  outline: 0;
+  padding: 10px;
+}
+
+.bottom button.on {
+  background-color: rgb(26, 131, 26);
+  box-shadow: 0px 0px 3px rgba(0,0,0,0.3) inset;
+}
+
+.bottom button.off {
+  background-color: rgb(203, 216, 203);
+  box-shadow: 0px 0px 3px rgba(0,0,0,0.3);
+}
