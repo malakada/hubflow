@@ -175,6 +175,9 @@ var FilterableIssueList = React.createClass({
       }, function() {
         self.updateIssues();
       });
+    }).fail(function(data) {
+      console.error('Failed github thing.', data);
+      self.updateIssues();
     });
   },
   updateIssues: function() {
