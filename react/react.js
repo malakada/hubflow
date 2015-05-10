@@ -221,6 +221,7 @@ var FilterableIssueList = React.createClass({
   },
   updateIssues: function() {
     var headers = null;
+    var self = this;
 
     if (this.state.authToken !== null && this.state.authToken.length > 0) {
       headers = {
@@ -228,7 +229,7 @@ var FilterableIssueList = React.createClass({
       };
     }
 
-    $.ajax({
+    reqwest({
       url: 'https://api.github.com/repos/' + this.state.repo + '/issues',
       headers: headers,
       data: {
@@ -236,13 +237,14 @@ var FilterableIssueList = React.createClass({
         sort: this.state.sort,
         state: this.state.state,
       },
-      success: function(result) {
-        if (this.isMounted()) {
-          this.setState({
-            issues: result,
-          });
+      method: 'get',
+      success: function (result) {
+          if (self.isMounted()) {
+            self.setState({
+              issues: result,
+            });
+          }
         }
-      }.bind(this),
     });
   },
   onUpdateDisplayClosed: function(val) {
