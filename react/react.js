@@ -1,7 +1,7 @@
 var IssueList = React.createClass({
   render: function() {
     var rows = [];
-    var displayClosed = this.props.displayClosed;
+
     this.props.issues.forEach(function(issue) {
       rows.push(<IssueRow
         key={issue.id}
@@ -10,7 +10,7 @@ var IssueList = React.createClass({
         avatarUrl={issue.user.avatar_url}
         body={issue.body}
         createdAt={issue.created_at}
-        displayClosed={displayClosed}
+        updatedAt={issue.updated_at}
         url={issue.html_url}
         labels={issue.labels}
         milestone={issue.milestone}
@@ -18,6 +18,7 @@ var IssueList = React.createClass({
         state={issue.state}
         title={issue.title} />);
     });
+
     return (
       <div className="issues">
         {rows}
@@ -33,8 +34,6 @@ var IssueRow = React.createClass({
 
     var state = this.props.state;
     var classString = 'issue ' + state;
-    var displayClosed = this.props.displayClosed;
-    var display = state === 'open' || displayClosed ? 'block' : 'none';
     var tagList = '';
     var tags = [];
 
@@ -46,7 +45,7 @@ var IssueRow = React.createClass({
     });
 
     return (
-      <div className={classString} style={{ display: display }}>
+      <div className={classString} style={{ display: state }}>
         <div className="issueRowAuthorStatus">
           <img src={this.props.avatarUrl} />
           <h3>{this.props.authorUserLogin}</h3>
@@ -64,7 +63,9 @@ var IssueRow = React.createClass({
         <div className="issueRowTags">
           <div className="opened panelThing">
             <h6>opened:</h6>
-            <p>{this.props.createdAt}</p>
+            <p>{new Date(this.props.createdAt).toString()}</p>
+            <h6>last updated:</h6>
+            <p>{new Date(this.props.updatedAt).toString()}</p>
           </div>
           <div className="tagged panelThing">
             <h6>tagged:</h6>
@@ -90,15 +91,22 @@ var IssueListTag = React.createClass({
 var SearchBar = React.createClass({
   getInitialState: function() {
     return {
-      displayClosed: false,
       repo: 'andrewrk/groovebasin',
+      state: 'open',
+      sort: 'created',
     };
   },
   handleFilterClosedChange: function() {
-    var newState = !this.state.displayClosed;
+    var newState = 'open';
+
+    if (this.state.state === 'open') {
+      newState = 'all';
+    } 
+
     this.setState({
-      displayClosed: newState,
+      state: newState,
     });
+
     this.props.onUpdateDisplayClosed(newState);
   },
   handleTextRepoChange: function(ev) {
@@ -108,19 +116,40 @@ var SearchBar = React.createClass({
     });
     this.props.onUpdateRepo(newRepo);
   },
+  toggleSortInactivity: function(ev) {
+    var newSort = 'created';
+    if (this.state.sort === 'created') {
+      newSort = 'updated';
+    } 
+    this.setState({
+      sort: newSort,
+    });
+    this.props.onUpdateSort(newSort);
+  },
   render: function() {
-    var handleChange = function() {}
+    var handleChange = function() {};
+    var inactivityButtonClass = 'off';
+    
+    if (this.state.sort === 'updated') {
+      inactivityButtonClass = 'on';
+    }
+
     return (
       <div className="header-thing">
         <h1>Hubflow</h1>
-        <form>
-          <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} placeholder="melissanoelle/hubflow" />
-          <p className="checkbox-label">
-            <input type="checkbox" checked={this.state.displayClosed} onChange={this.handleFilterClosedChange.bind(this, 'displayClosed')} />
-            {' '}
-            Show issues marked as closed too.
-          </p>
-        </form>
+          <div className="top">
+            <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} placeholder="melissanoelle/hubflow" />
+            <p className="checkbox-label">
+              <input type="checkbox" checked={this.state.state === 'all' ? true : false} onChange={this.handleFilterClosedChange.bind(this, 'state')} />
+              {' '}
+              Show issues marked as closed too.
+            </p>
+            <div className="clearfix"></div>
+          </div>
+          <div className="bottom">
+            <p>Filter by:</p>
+            <button className={inactivityButtonClass} onClick={this.toggleSortInactivity}>Inactivity</button>
+          </div>
         <div className="clearfix"></div>
       </div>
     );
@@ -130,16 +159,20 @@ var SearchBar = React.createClass({
 var FilterableIssueList = React.createClass({
   getInitialState: function() {
     return {
-      displayClosed: false,
       issues: [],
       repo: 'andrewrk/groovebasin',
+      sort: 'created',
+      state: 'open',
     };
   },
   componentDidMount: function() {
     this.updateIssues();
   },
   updateIssues: function() {
-    $.get("https://api.github.com/repos/" + this.state.repo + "/issues?state=all", function(result) {
+    $.get('https://api.github.com/repos/' + this.state.repo + '/issues', {
+        state: this.state.state,
+        sort: this.state.sort,
+      }, function(result) {
       if (this.isMounted()) {
         this.setState({
           issues: result,
@@ -148,21 +181,31 @@ var FilterableIssueList = React.createClass({
     }.bind(this));
   },
   onUpdateDisplayClosed: function(val) {
-    this.setState({
-      displayClosed: val,
+    this.setState({      
+      state: val,
+    }, function() {
+      this.updateIssues();
     });
   },
   onUpdateRepo: function(val) {
-    this.setState({
+    this.setState({      
       repo: val,
+    }, function() {
+      this.updateIssues();
     });
-    this.updateIssues();
+  },
+  onUpdateSort: function(val) {
+    this.setState({      
+      sort: val,
+    }, function() {
+      this.updateIssues();
+    });
   },
   render: function() {
     return (
       <div>
-        <SearchBar onUpdateDisplayClosed={this.onUpdateDisplayClosed} onUpdateRepo={this.onUpdateRepo} />
-        <IssueList issues={this.state.issues} displayClosed={this.state.displayClosed} />
+        <SearchBar onUpdateDisplayClosed={this.onUpdateDisplayClosed} onUpdateRepo={this.onUpdateRepo} onUpdateSort={this.onUpdateSort} />
+        <IssueList issues={this.state.issues} />
       </div>
     );
   },
