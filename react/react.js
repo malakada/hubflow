@@ -94,6 +94,10 @@ var IssueRow = React.createClass({
             <p>{this.state.tags}</p>
           </div>
         </div>
+        <div className="expandableArea" style={{ display: "none" }}>
+          <h6>Im expandable:</h6>
+          <p>woot!</p>
+        </div>
       </div>
     );
   },
