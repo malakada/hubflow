@@ -28,10 +28,7 @@ var IssueList = React.createClass({
 });
 
 var IssueRow = React.createClass({
-  render: function() {
-    var converter = new Showdown.converter();
-    var dangerousHtml = converter.makeHtml(this.props.body.toString());
-
+  getInitialState: function() {
     var state = this.props.state;
     var classString = 'issue ' + state;
     var tagList = '';
@@ -44,14 +41,37 @@ var IssueRow = React.createClass({
         title={tag.name} />);
     });
 
+    return {
+      classString: classString,
+      state: state,
+      tagList: tagList,
+      tags: tags,
+    };
+  },
+  toggleExpanded: function(ev) {
+    var newClassString
+    var expandedClass = ' expanded';
+    if (this.state.classString.indexOf(expandedClass) > 0) {
+      newClassString = this.state.classString.replace(expandedClass, '');
+    } else {
+      newClassString += expandedClass;
+    }
+    this.setState({
+      classString: newClassString,
+    });
+  },
+  render: function() {
+    var converter = new Showdown.converter();
+    var dangerousHtml = converter.makeHtml(this.props.body.toString());
+
     return (
-      <div className={classString} style={{ display: state }}>
+      <div className={this.state.classString} style={{ display: this.state.state }} onClick={this.toggleExpanded}>
         <div className="issueRowAuthorStatus">
           <img src={this.props.avatarUrl} />
           <h3>{this.props.authorUserLogin}</h3>
-          <div className={"state panelThing " + state}>
+          <div className={"state panelThing " + this.state.state}>
             <h6>state:</h6>
-            <p>{state}</p>
+            <p>{this.state.state}</p>
           </div>
         </div>
         <div className="issueRowBody">
@@ -69,7 +89,7 @@ var IssueRow = React.createClass({
           </div>
           <div className="tagged panelThing">
             <h6>tagged:</h6>
-            <p>{tags}</p>
+            <p>{this.state.tags}</p>
           </div>
         </div>
       </div>
