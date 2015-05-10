@@ -101,7 +101,7 @@ var SearchBar = React.createClass({
 
     if (this.state.state === 'open') {
       newState = 'all';
-    } 
+    }
 
     this.setState({
       state: newState,
@@ -120,7 +120,7 @@ var SearchBar = React.createClass({
     var newSort = 'created';
     if (this.state.sort === 'created') {
       newSort = 'updated';
-    } 
+    }
     this.setState({
       sort: newSort,
     });
@@ -129,7 +129,7 @@ var SearchBar = React.createClass({
   render: function() {
     var handleChange = function() {};
     var inactivityButtonClass = 'off';
-    
+
     if (this.state.sort === 'updated') {
       inactivityButtonClass = 'on';
     }
@@ -179,6 +179,7 @@ var FilterableIssueList = React.createClass({
     };
   },
   componentDidMount: function() {
+    OAuth.initialize('eVe8h6XL-bB0dAZ9eEZmHMbe-6Q');
     this.updateIssues();
   },
   updateIssues: function() {
@@ -191,7 +192,7 @@ var FilterableIssueList = React.createClass({
     }
 
     $.ajax({
-      url: 'https://api.github.com/repos/' + this.state.repo + '/issues', 
+      url: 'https://api.github.com/repos/' + this.state.repo + '/issues',
       headers: headers,
       data: {
         state: this.state.state,
@@ -207,21 +208,21 @@ var FilterableIssueList = React.createClass({
     });
   },
   onUpdateDisplayClosed: function(val) {
-    this.setState({      
+    this.setState({
       state: val,
     }, function() {
       this.updateIssues();
     });
   },
   onUpdateRepo: function(val) {
-    this.setState({      
+    this.setState({
       repo: val,
     }, function() {
       this.updateIssues();
     });
   },
   onUpdateSort: function(val) {
-    this.setState({      
+    this.setState({
       sort: val,
     }, function() {
       this.updateIssues();
