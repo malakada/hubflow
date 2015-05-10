@@ -91,7 +91,7 @@ var IssueListTag = React.createClass({
 var SearchBar = React.createClass({
   getInitialState: function() {
     return {
-      repo: 'andrewrk/groovebasin',
+      repo: 'melissanoelle/hubflow',
       state: 'open',
       sort: 'created',
     };
@@ -138,7 +138,7 @@ var SearchBar = React.createClass({
       <div className="header-thing">
         <h1>Hubflow</h1>
           <div className="top">
-            <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChange} placeholder="melissanoelle/hubflow" />
+            <input type="text" value={this.state.repo} onBlur={this.handleTextRepoChange} placeholder="melissanoelle/hubflow" />
             <p className="checkbox-label">
               <input type="checkbox" checked={this.state.state === 'all' ? true : false} onChange={this.handleFilterClosedChange.bind(this, 'state')} />
               {' '}
@@ -162,7 +162,7 @@ var FilterableIssueList = React.createClass({
       authToken: '',
       direction: 'desc',
       issues: [],
-      repo: 'andrewrk/groovebasin',
+      repo: 'melissanoelle/hubflow',
       sort: 'created',
       state: 'open',
     };
