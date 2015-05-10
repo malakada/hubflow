@@ -170,7 +170,7 @@ var FilterableIssueList = React.createClass({
   componentDidMount: function() {
     OAuth.initialize('eVe8h6XL-bB0dAZ9eEZmHMbe-6Q');
     var self = this;
-    OAuth.popup('github').done(function(result) {
+    OAuth.popup('github', {cache: true}).done(function(result) {
       self.setState({
         authToken: result.access_token,
       }, function() {
