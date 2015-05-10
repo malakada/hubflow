@@ -11,10 +11,13 @@ var IssueList = React.createClass({
         body={issue.body}
         createdAt={issue.created_at}
         updatedAt={issue.updated_at}
+        closedAt={issue.closed_at}
         url={issue.html_url}
         labels={issue.labels}
         milestone={issue.milestone}
         number={issue.number}
+        comments={issue.comments}
+        pullRequest={issue.pull_request}
         state={issue.state}
         title={issue.title} />);
     });
@@ -95,8 +98,11 @@ var IssueRow = React.createClass({
           </div>
         </div>
         <div className="expandableArea" style={{ display: "none" }}>
-          <h6>Im expandable:</h6>
-          <p>woot!</p>
+          <div className="opened panelThing">
+            <div>
+              <b>comments :</b> <span>{this.props.comments}</span>
+            </div>
+          </div>
         </div>
       </div>
     );
