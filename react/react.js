@@ -156,18 +156,6 @@ var SearchBar = React.createClass({
   },
 });
 
-/* HERE is the code to get a github auth token:
-
-//call this once per page
-OAuth.initialize('eVe8h6XL-bB0dAZ9eEZmHMbe-6Q');
-
-//call this to auth the user
-OAuth.popup('github').done(function(result) {
-  console.log(result.access_token)
-});
-
-*/
-
 var FilterableIssueList = React.createClass({
   getInitialState: function() {
     return {
@@ -180,7 +168,14 @@ var FilterableIssueList = React.createClass({
   },
   componentDidMount: function() {
     OAuth.initialize('eVe8h6XL-bB0dAZ9eEZmHMbe-6Q');
-    this.updateIssues();
+    var self = this;
+    OAuth.popup('github').done(function(result) {
+      self.setState({
+        authToken: result.access_token,
+      }, function() {
+        self.updateIssues();
+      });
+    });
   },
   updateIssues: function() {
     var headers = null;
