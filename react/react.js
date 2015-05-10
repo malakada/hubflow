@@ -114,6 +114,12 @@ var SearchBar = React.createClass({
     this.setState({
       repo: newRepo,
     });
+  },
+  handleTextRepoChangeAndSubmit: function(ev) {
+    var newRepo = ev.target.value;
+    this.setState({
+      repo: newRepo,
+    });
     this.props.onUpdateRepo(newRepo);
   },
   toggleSortInactivity: function(ev) {
@@ -138,7 +144,7 @@ var SearchBar = React.createClass({
       <div className="header-thing">
         <h1>Hubflow</h1>
           <div className="top">
-            <input type="text" value={this.state.repo} onBlur={this.handleTextRepoChange} placeholder="melissanoelle/hubflow" />
+            <input type="text" value={this.state.repo} onChange={this.handleTextRepoChange} onBlur={this.handleTextRepoChangeAndSubmit} placeholder="melissanoelle/hubflow" />
             <p className="checkbox-label">
               <input type="checkbox" checked={this.state.state === 'all' ? true : false} onChange={this.handleFilterClosedChange.bind(this, 'state')} />
               {' '}
