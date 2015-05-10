@@ -101,7 +101,7 @@ var SearchBar = React.createClass({
 
     if (this.state.state === 'open') {
       newState = 'all';
-    } 
+    }
 
     this.setState({
       state: newState,
@@ -120,7 +120,7 @@ var SearchBar = React.createClass({
     var newSort = 'created';
     if (this.state.sort === 'created') {
       newSort = 'updated';
-    } 
+    }
     this.setState({
       sort: newSort,
     });
@@ -129,7 +129,7 @@ var SearchBar = React.createClass({
   render: function() {
     var handleChange = function() {};
     var inactivityButtonClass = 'off';
-    
+
     if (this.state.sort === 'updated') {
       inactivityButtonClass = 'on';
     }
@@ -159,6 +159,7 @@ var SearchBar = React.createClass({
 var FilterableIssueList = React.createClass({
   getInitialState: function() {
     return {
+      authToken: '',
       issues: [],
       repo: 'andrewrk/groovebasin',
       sort: 'created',
@@ -166,36 +167,57 @@ var FilterableIssueList = React.createClass({
     };
   },
   componentDidMount: function() {
-    this.updateIssues();
+    OAuth.initialize('eVe8h6XL-bB0dAZ9eEZmHMbe-6Q');
+    var self = this;
+    OAuth.popup('github').done(function(result) {
+      self.setState({
+        authToken: result.access_token,
+      }, function() {
+        self.updateIssues();
+      });
+    });
   },
   updateIssues: function() {
-    $.get('https://api.github.com/repos/' + this.state.repo + '/issues', {
+    var headers = null;
+
+    if (this.state.authToken !== null && this.state.authToken.length > 0) {
+      headers = {
+        "Authorization": "token " + this.state.authToken,
+      };
+    }
+
+    $.ajax({
+      url: 'https://api.github.com/repos/' + this.state.repo + '/issues',
+      headers: headers,
+      data: {
         state: this.state.state,
         sort: this.state.sort,
-      }, function(result) {
-      if (this.isMounted()) {
-        this.setState({
-          issues: result,
-        });
-      }
-    }.bind(this));
+      },
+      success: function(result) {
+        if (this.isMounted()) {
+          this.setState({
+            issues: result,
+          });
+        }
+      }.bind(this),
+    });
   },
   onUpdateDisplayClosed: function(val) {
-    this.setState({      
+    this.setState({
       state: val,
     }, function() {
       this.updateIssues();
     });
   },
   onUpdateRepo: function(val) {
-    this.setState({      
+    this.setState({
       repo: val,
     }, function() {
       this.updateIssues();
     });
   },
   onUpdateSort: function(val) {
-    this.setState({      
+    this.setState({
       sort: val,
     }, function() {
       this.updateIssues();
