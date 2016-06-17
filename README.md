@@ -4,9 +4,13 @@ A more beautiful view for Github issues to help you focus on triaging issues tha
 
 ## Run it
 
-Uses a small ruby webserver, run it using:
+This uses node, so make sure you have that installed on your machine first. Then, run these:
 
-`$ ruby server.rb`
+```
+$ npm install
+$ npm run build
+$ npm start
+```
 
 ## Some screenshots
 
