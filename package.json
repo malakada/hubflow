@@ -1,0 +1,32 @@
+{
+  "name": "hubflow",
+  "version": "1.0.0",
+  "description": "View Github issues more beautifully.",
+  "main": "lib/main.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "showdown": "^1.4.1",
+    "simple-oauth2": "^0.7.0"
+  },
+  "devDependencies": {
+    "babel-core": "^5.8.23",
+    "babel-loader": "^5.3.2",
+    "webpack": "^1.12.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "build": "webpack --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melissanoelle/hubflow.git"
+  },
+  "author": "Melissa Noelle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/melissanoelle/hubflow/issues"
+  },
+  "homepage": "https://github.com/melissanoelle/hubflow#readme"
+}
