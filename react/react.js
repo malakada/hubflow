@@ -37,7 +37,6 @@ var IssueRow = React.createClass({
     var tagList = '';
     var tags = [];
 
-    // TODO: checkout map
     this.props.labels.forEach(function(tag) {
       tags.push(<IssueListTag
         color={tag.color}
